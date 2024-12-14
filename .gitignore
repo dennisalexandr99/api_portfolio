@@ -8,3 +8,21 @@ tmp/nanoc/
 
 # Crash Log
 crash.log
+
+*.jpg
+*.TXT
+*.pdf
+*.dll
+*.pdb
+*.cache
+*.suo
+*.user
+*.compiled
+*.pubxml
+*.datasource
+*.7z
+sandcastle/
+Help/
+
+*.vsidx
+*.vs

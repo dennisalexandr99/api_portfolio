@@ -1,0 +1,36 @@
+# For projects using Nanoc (http://nanoc.ws/)
+
+# Default location for output (needs to match output_dir's value found in nanoc.yaml)
+output/
+
+# Temporary file directory
+tmp/nanoc/
+
+# Crash Log
+crash.log
+
+*.jpg
+*.TXT
+*.pdf
+*.dll
+*.pdb
+*.cache
+*.suo
+IRK_WS_Refactor/.vs/IRK_WS_Refactor/config/applicationhost.config
+*.user
+*.compiled
+*.pubxml
+*.datasource
+*.7z
+sandcastle/
+Help/
+
+*.vsidx
+.vs/ProjectEvaluation/apiportfolio.strings.v9.bin
+.vs/ProjectEvaluation/apiportfolio.projects.v9.bin
+.vs/ProjectEvaluation/apiportfolio.metadata.v9.bin
+.vs/ApiPortfolio/v17/DocumentLayout.json
+.vs/ApiPortfolio/v17/DocumentLayout.backup.json
+.vs/ApiPortfolio/v17/.futdcache.v2
+.vs/ApiPortfolio/DesignTimeBuild/.dtbcache.v2
+.vs/ApiPortfolio/config/applicationhost.config

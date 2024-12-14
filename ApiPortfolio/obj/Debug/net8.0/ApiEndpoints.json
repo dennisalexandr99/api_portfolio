@@ -1,0 +1,83 @@
+[
+  {
+    "ContainingType": "ApiPortfolio.Controllers.UserController",
+    "Method": "CreateNewUser",
+    "RelativePath": "User/CreateNewUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userUniqueId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userFullName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "userPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "idRole",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "CreateNewUser"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.UserController",
+    "Method": "GetUserInfo",
+    "RelativePath": "User/GetUserInfo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [],
+    "EndpointName": "GetUserInfo"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.UserController",
+    "Method": "GetUserListByPrivilege",
+    "RelativePath": "User/GetUserListByPrivilege",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [],
+    "EndpointName": "GetUserListByPrivilege"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.UserController",
+    "Method": "Login",
+    "RelativePath": "User/Login",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userUniqueId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "Login"
+  }
+]
