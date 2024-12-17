@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\My Data\\Coding\\api_portfolio\\ApiPortfolio\\api_portfolio\\ApiPortfolio\\wwwroot\\uploads\\medium\\Pic_20241216154904.jpg",
+      "PackagePath": "staticwebassets\\uploads\\medium\\Pic_20241216154904.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ApiPortfolio.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ApiPortfolio.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.ApiPortfolio.props",
+      "PackagePath": "build\\ApiPortfolio.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.ApiPortfolio.props",
+      "PackagePath": "buildMultiTargeting\\ApiPortfolio.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.ApiPortfolio.props",
+      "PackagePath": "buildTransitive\\ApiPortfolio.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

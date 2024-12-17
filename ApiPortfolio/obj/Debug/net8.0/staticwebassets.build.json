@@ -1,12 +1,20 @@
 {
   "Version": 1,
-  "Hash": "ipXRdY2hq783hROl0RriB110qh3dKiuhOHAB95A5Rkg=",
+  "Hash": "IKt/fYZjjQQncpMd8bu8k3LCLibGOWmlj10x+L5itXA=",
   "Source": "ApiPortfolio",
   "BasePath": "_content/ApiPortfolio",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ApiPortfolio\\wwwroot",
+      "Source": "ApiPortfolio",
+      "ContentRoot": "D:\\My Data\\Coding\\api_portfolio\\ApiPortfolio\\api_portfolio\\ApiPortfolio\\wwwroot\\",
+      "BasePath": "_content/ApiPortfolio",
+      "Pattern": "**"
+    }
+  ],
   "Assets": [],
   "Endpoints": []
 }

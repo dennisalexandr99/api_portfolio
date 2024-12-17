@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "d:\\Users\\Dennis\\Desktop\\upwork\\ApiPortfolio\\ApiPortfolio\\ApiPortfolio.csproj": {}
+    "D:\\My Data\\Coding\\api_portfolio\\ApiPortfolio\\api_portfolio\\ApiPortfolio\\ApiPortfolio.csproj": {}
   },
   "projects": {
-    "d:\\Users\\Dennis\\Desktop\\upwork\\ApiPortfolio\\ApiPortfolio\\ApiPortfolio.csproj": {
+    "D:\\My Data\\Coding\\api_portfolio\\ApiPortfolio\\api_portfolio\\ApiPortfolio\\ApiPortfolio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Users\\Dennis\\Desktop\\upwork\\ApiPortfolio\\ApiPortfolio\\ApiPortfolio.csproj",
+        "projectUniqueName": "D:\\My Data\\Coding\\api_portfolio\\ApiPortfolio\\api_portfolio\\ApiPortfolio\\ApiPortfolio.csproj",
         "projectName": "ApiPortfolio",
-        "projectPath": "d:\\Users\\Dennis\\Desktop\\upwork\\ApiPortfolio\\ApiPortfolio\\ApiPortfolio.csproj",
-        "packagesPath": "C:\\Users\\Dennis\\.nuget\\packages\\",
-        "outputPath": "d:\\Users\\Dennis\\Desktop\\upwork\\ApiPortfolio\\ApiPortfolio\\obj\\",
+        "projectPath": "D:\\My Data\\Coding\\api_portfolio\\ApiPortfolio\\api_portfolio\\ApiPortfolio\\ApiPortfolio.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\My Data\\Coding\\api_portfolio\\ApiPortfolio\\api_portfolio\\ApiPortfolio\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Dennis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -65,6 +65,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[7.2.0, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",

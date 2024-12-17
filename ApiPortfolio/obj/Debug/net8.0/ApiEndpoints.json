@@ -1,5 +1,130 @@
 [
   {
+    "ContainingType": "ApiPortfolio.Controllers.TicketController",
+    "Method": "CreateTicket",
+    "RelativePath": "Ticket/CreateTicket",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pictureFileName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "CreateTicket"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.TicketController",
+    "Method": "DeteleTicket",
+    "RelativePath": "Ticket/DeteleTicket",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idTicket",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "DeleteTicket"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.TicketController",
+    "Method": "EditTicket",
+    "RelativePath": "Ticket/EditTicket",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idTicket",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newTitle",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newDescription",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPictureFileName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "EditTicket"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.TicketController",
+    "Method": "GetTicketListByPrivilege",
+    "RelativePath": "Ticket/GetTicketListByPrivilege",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "orderType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "limit",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "lastIndex",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "GetTicketListByPrivilege"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.TicketController",
+    "Method": "UploadPicture",
+    "RelativePath": "Ticket/UploadPicture",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pictureFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "UploadPicture"
+  },
+  {
     "ContainingType": "ApiPortfolio.Controllers.UserController",
     "Method": "CreateNewUser",
     "RelativePath": "User/CreateNewUser",
@@ -35,6 +160,65 @@
     ],
     "ReturnTypes": [],
     "EndpointName": "CreateNewUser"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.UserController",
+    "Method": "DeleteUser",
+    "RelativePath": "User/DeleteUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "targetUserUniqueId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "DeleteUser"
+  },
+  {
+    "ContainingType": "ApiPortfolio.Controllers.UserController",
+    "Method": "EditUser",
+    "RelativePath": "User/EditUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "targetUserUniqueId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newUserFullName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newUserEmail",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "oldPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newUserPassword",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "newIdRole",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [],
+    "EndpointName": "EditUser"
   },
   {
     "ContainingType": "ApiPortfolio.Controllers.UserController",

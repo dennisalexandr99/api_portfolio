@@ -249,7 +249,7 @@ namespace ApiPortfolio.Controllers
                 //validate jwt
                 if (authorizationHeader != null)
                     jwtInformations = token.ValidateJwtToken(authorizationHeader, new ConfigurationBuilder().AddJsonFile("appsettings." + environment + ".json").Build().GetSection("Secret")["JWTKey"]);
-                if (jwtInformations[0] == "")
+                if (jwtInformations == null)
                 {
                     Response.StatusCode = 401;
                     response.status = "unauthorized";
@@ -284,7 +284,7 @@ namespace ApiPortfolio.Controllers
                 {
                     Response.StatusCode = 400;
                     response.status = "fail";
-                    response.message = "you only able to create a user level below you or same as you (" + jwtInformations[1] + ")";
+                    response.message = "you only able to create an user level below you or same as you (" + jwtInformations[1] + ")";
                     return Json(response);
                 }
 
@@ -334,6 +334,245 @@ namespace ApiPortfolio.Controllers
                 response.status = "fail";
                 response.message = e.Message;
                 _utility.FileTraceLog("Exception : " + "GetUserInfo " + e.Message + "userUniqueId : " + userUniqueId);
+            }
+            finally
+            {
+                if (response.status == "success")
+                {
+                    myTrans.Commit();
+                }
+                else
+                {
+                    try
+                    {
+                        myTrans.Rollback();
+                    }
+                    catch (MySqlException exT)
+                    {
+
+                    }
+                }
+                sqlConn.Close();
+            }
+
+            return Json(response);
+        }
+
+        [Route("[action]", Name = "EditUser")]
+        [HttpPost]
+        public IActionResult EditUser(string targetUserUniqueId, string newUserFullName, string newUserEmail, string oldPassword, string newUserPassword, int newIdRole)
+        {
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
+            string[] jwtInformations = null;
+
+            DBFunctions db = new DBFunctions();
+            MySqlConnection sqlConn = db.GetConnection();
+            DataTable dtUser = new DataTable();
+            DataTable tmpDtLevel = new DataTable();
+
+            ClassResponseUser response = new ClassResponseUser();
+
+            if (sqlConn.State == ConnectionState.Closed)
+                sqlConn.Open();
+            MySqlTransaction myTrans = sqlConn.BeginTransaction();
+
+            try
+            {
+                TokenManager token = new TokenManager();
+                //validate jwt
+                if (authorizationHeader != null)
+                    jwtInformations = token.ValidateJwtToken(authorizationHeader, new ConfigurationBuilder().AddJsonFile("appsettings." + environment + ".json").Build().GetSection("Secret")["JWTKey"]);
+                if (jwtInformations==null)
+                {
+                    Response.StatusCode = 401;
+                    response.status = "unauthorized";
+                    response.message = "unauthorized";
+                    return Json(response);
+                }
+
+                if (!_utility.IsValidEmail(newUserEmail))
+                {
+                    Response.StatusCode = 400;
+                    response.status = "fail";
+                    response.message = "email address must be in a correct format";
+                    return Json(response);
+                }
+
+                //user only able to edit role same or lower than their level
+                //tmpDtLevel = db.GetUserInfo(jwtInformations[0], "", "", sqlConn);
+                //int userLevel = 0;
+                //if (tmpDtLevel.Rows.Count > 0)
+                //    userLevel = _utility.NullToInt(tmpDtLevel.Rows[0]["role_level"]);
+
+                if (newIdRole < int.Parse(jwtInformations[1]))
+                {
+                    Response.StatusCode = 400;
+                    response.status = "fail";
+                    response.message = "you only able to edit a user level below you or same as you (" + jwtInformations[1] + ")";
+                    return Json(response);
+                }
+
+                string key = new ConfigurationBuilder().AddJsonFile("appsettings." + environment + ".json").Build().GetSection("Secret")["Sha256Key"];
+                oldPassword = _utility.ComputeHmacSha256Base64(oldPassword, key);
+
+                //get old password first for confirmation
+                string currentPassword = db.GetCurrentPassword(targetUserUniqueId, sqlConn);
+                if (oldPassword != currentPassword)
+                {
+                    Response.StatusCode = 400;
+                    response.status = "fail";
+                    response.message = "wrong old password";
+                    return Json(response);
+                }
+
+                //create new password
+                newUserPassword = _utility.ComputeHmacSha256Base64(newUserPassword, key);
+
+
+                bool editUser = db.EditUser(targetUserUniqueId, newUserFullName, newUserEmail, newUserPassword, newIdRole, myTrans, sqlConn);
+                if (editUser == false)
+                {
+                    Response.StatusCode = 400;
+                    response.status = "fail";
+                    response.message = "user not edited, please check contact administrator";
+                    _utility.FileTraceLog("User not edited : " + "CreateUser, userUniqueId : " + targetUserUniqueId);
+                    return Json(response);
+                }
+                else
+                {
+                    dtUser = db.GetUserInfo(targetUserUniqueId, "", "", sqlConn);
+                    if (dtUser.Rows.Count > 0)
+                    {
+                        Response.StatusCode = 200;
+                        response.status = "success";
+                        response.message = "user edited successfully";
+
+                        response.data = new Models.ClassUser();
+                        response.data.id_user = _utility.NullToInt(dtUser.Rows[0]["id_user"]);
+                        response.data.user_unique_id = _utility.NullToString(dtUser.Rows[0]["user_unique_id"]);
+                        response.data.user_email = _utility.NullToString(dtUser.Rows[0]["user_email"]);
+                        response.data.user_full_name = _utility.NullToString(dtUser.Rows[0]["user_fullname"]);
+
+                        response.data.role = new Models.ClassRole();
+                        response.data.role.id_role = _utility.NullToInt(dtUser.Rows[0]["id_role"]);
+                        response.data.role.role_name = _utility.NullToString(dtUser.Rows[0]["role_name"]);
+                        response.data.role.role_level = _utility.NullToInt(dtUser.Rows[0]["role_level"]);
+                    }
+                    else
+                    {
+                        Response.StatusCode = 400;
+                        response.status = "fail";
+                        response.message = "user not found";
+                        _utility.FileTraceLog("User not created : " + "EditUser, userUniqueId : " + targetUserUniqueId);
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = 500;
+                response.status = "fail";
+                response.message = e.Message;
+                _utility.FileTraceLog("Exception : " + "EditUser " + e.Message + "userUniqueId : " + targetUserUniqueId);
+            }
+            finally
+            {
+                if (response.status == "success")
+                {
+                    myTrans.Commit();
+                }
+                else
+                {
+                    try
+                    {
+                        myTrans.Rollback();
+                    }
+                    catch (MySqlException exT)
+                    {
+
+                    }
+                }
+                sqlConn.Close();
+            }
+
+            return Json(response);
+        }
+
+        [Route("[action]", Name = "DeleteUser")]
+        [HttpPost]
+        public IActionResult DeleteUser(string targetUserUniqueId)
+        {
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
+            string[] jwtInformations = null;
+
+            DBFunctions db = new DBFunctions();
+            MySqlConnection sqlConn = db.GetConnection();
+            DataTable dtUser = new DataTable();
+            DataTable tmpDtLevel = new DataTable();
+
+            ClassResponseUser response = new ClassResponseUser();
+
+            if (sqlConn.State == ConnectionState.Closed)
+                sqlConn.Open();
+            MySqlTransaction myTrans = sqlConn.BeginTransaction();
+
+            try
+            {
+                TokenManager token = new TokenManager();
+                //validate jwt
+                if (authorizationHeader != null)
+                    jwtInformations = token.ValidateJwtToken(authorizationHeader, new ConfigurationBuilder().AddJsonFile("appsettings." + environment + ".json").Build().GetSection("Secret")["JWTKey"]);
+                if (jwtInformations == null)
+                {
+                    Response.StatusCode = 401;
+                    response.status = "unauthorized";
+                    response.message = "unauthorized";
+                    return Json(response);
+                }
+
+                //user only able to edit role same or lower than their level
+                tmpDtLevel = db.GetUserInfo(targetUserUniqueId, "", "", sqlConn);
+                int userLevel = 0;
+                if (tmpDtLevel.Rows.Count > 0)
+                    userLevel = _utility.NullToInt(tmpDtLevel.Rows[0]["role_level"]);
+                else
+                {
+                    Response.StatusCode = 400;
+                    response.status = "fail";
+                    response.message = "user not found";
+                    return Json(response);
+                }
+
+                if (userLevel < int.Parse(jwtInformations[1]))
+                {
+                    Response.StatusCode = 400;
+                    response.status = "fail";
+                    response.message = "you only able to delete an user level below you or same as you (" + jwtInformations[1] + ")";
+                    return Json(response);
+                }
+
+                bool deleteUser = db.DeleteUser(targetUserUniqueId, myTrans, sqlConn);
+                if (deleteUser == false)
+                {
+                    Response.StatusCode = 400;
+                    response.status = "fail";
+                    response.message = "user not deleted, please check contact administrator";
+                    _utility.FileTraceLog("User not deleted : " + "DeleteUser, userUniqueId : " + targetUserUniqueId);
+                    return Json(response);
+                }
+                else
+                {
+                    Response.StatusCode = 200;
+                    response.status = "success";
+                    response.message = "user deleted successfully";
+                }
+            }
+            catch (Exception e)
+            {
+                Response.StatusCode = 500;
+                response.status = "fail";
+                response.message = e.Message;
+                _utility.FileTraceLog("Exception : " + "DeleteUser " + e.Message + "userUniqueId : " + targetUserUniqueId);
             }
             finally
             {
