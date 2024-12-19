@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI.Common;
+﻿using MySql.Data.MySqlClient;
 using System.Data;
-using System.Globalization;
 
 namespace ApiPortfolio
 {

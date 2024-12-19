@@ -1,8 +1,8 @@
 ﻿using ApiPortfolio.Models.Response;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System.Data;
-using System.Linq;
 
 namespace ApiPortfolio.Controllers
 {
@@ -29,6 +29,9 @@ namespace ApiPortfolio.Controllers
             MySqlConnection sqlConn = db.GetConnection();
             DataTable dtTicket = new DataTable();
             DataTable tmpDtLevel = new DataTable();
+
+            string url = HttpContext.Request.GetDisplayUrl();
+            url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}" + "/";
 
             ClassResponseTicket response = new ClassResponseTicket();
 
@@ -79,7 +82,7 @@ namespace ApiPortfolio.Controllers
                     response.data.tickets[0].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[0]["user_unique_id"]));
                     response.data.tickets[0].title = _utility.NullToString(dtTicket.Rows[0]["title"]);
                     response.data.tickets[0].description = _utility.NullToString(dtTicket.Rows[0]["description"]);
-                    response.data.tickets[0].picture_url = "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[0]["picture"]);
+                    response.data.tickets[0].picture_url = url + "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[0]["picture"]);
                     response.data.tickets[0].created_by = _utility.NullToString(dtTicket.Rows[0]["created_by"]);
                     if (_utility.NullToString(dtTicket.Rows[0]["create_time"]) != "")
                         response.data.tickets[0].create_time = DateTime.Parse(_utility.NullToString(dtTicket.Rows[0]["create_time"]));
@@ -148,6 +151,9 @@ namespace ApiPortfolio.Controllers
             DataTable dtTicket = new DataTable();
             DataTable tmpDtLevel = new DataTable();
 
+            string url = HttpContext.Request.GetDisplayUrl();
+            url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}" + "/";
+
             ClassResponseTicket response = new ClassResponseTicket();
 
             if (sqlConn.State == ConnectionState.Closed)
@@ -198,7 +204,7 @@ namespace ApiPortfolio.Controllers
                         response.data.tickets[0].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[0]["user_unique_id"]));
                         response.data.tickets[0].title = _utility.NullToString(dtTicket.Rows[0]["title"]);
                         response.data.tickets[0].description = _utility.NullToString(dtTicket.Rows[0]["description"]);
-                        response.data.tickets[0].picture_url = "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[0]["picture"]);
+                        response.data.tickets[0].picture_url = url + "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[0]["picture"]);
                         response.data.tickets[0].created_by = _utility.NullToString(dtTicket.Rows[0]["created_by"]);
                         if (_utility.NullToString(dtTicket.Rows[0]["create_time"]) != "")
                             response.data.tickets[0].create_time = DateTime.Parse(_utility.NullToString(dtTicket.Rows[0]["create_time"]));
@@ -346,6 +352,9 @@ namespace ApiPortfolio.Controllers
             DataTable tmpDtLevel = new DataTable();
             string pictureName = "Pic" + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
 
+            string url = HttpContext.Request.GetDisplayUrl();
+            url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}" + "/";
+
             ClassResponsePicture response = new ClassResponsePicture();
 
             try
@@ -366,7 +375,7 @@ namespace ApiPortfolio.Controllers
                 {
                     response.status = "200";
                     response.data = new Models.ClassPicture();
-                    response.data.picture_file_name = pictureName;
+                    response.data.picture_file_name = url + "picture_uploads/medium/" + pictureName;
                     response.message = "success";
                 }
                 else
@@ -401,6 +410,9 @@ namespace ApiPortfolio.Controllers
             DataTable dtTicket = new DataTable();
             string[] jwtInformations = null;
 
+            string url = HttpContext.Request.GetDisplayUrl();
+            url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}" + "/";
+
             ClassResponseTicket response = new ClassResponseTicket();
 
             try
@@ -434,13 +446,13 @@ namespace ApiPortfolio.Controllers
                     response.data.order_type = "";
 
                     response.data.tickets = new Models.ClassTicket[dtTicket.Rows.Count];
-                    for (int i = 0; i < dtTicket.Rows.Count; i++)
+                    for (int i = 0; i < dtTicket.Rows.Count; i++)       
                     {
                         response.data.tickets[i] = new Models.ClassTicket();
                         response.data.tickets[i].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[i]["user_unique_id"]));
                         response.data.tickets[i].title = _utility.NullToString(dtTicket.Rows[i]["title"]);
                         response.data.tickets[i].description = _utility.NullToString(dtTicket.Rows[i]["description"]);
-                        response.data.tickets[i].picture_url = "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[i]["picture"]);
+                        response.data.tickets[i].picture_url = url + "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[i]["picture"]);
                         response.data.tickets[i].created_by = _utility.NullToString(dtTicket.Rows[i]["created_by"]);
                         if (_utility.NullToString(dtTicket.Rows[i]["create_time"]) != "")
                             response.data.tickets[i].create_time = DateTime.Parse(_utility.NullToString(dtTicket.Rows[i]["create_time"]));

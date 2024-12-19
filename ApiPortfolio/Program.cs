@@ -1,5 +1,7 @@
 using ApiPortfolio;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +16,8 @@ builder.Services.AddSingleton<DBFunctions>();
 builder.Services.AddSingleton<ClassUtility>();
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Configure JWT Bearer Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -23,6 +25,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.Authority = "https://your-auth-server.com";  // URL of the Identity Provider
         options.Audience = "hehe";  // Audience value (e.g., API name)
     });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -51,23 +54,72 @@ builder.Services.AddSwaggerGen(c =>
             new string[] {}
         }
     });
+
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 });
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Use exception handling middleware
+app.UseExceptionHandler(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    options.Run(async context =>
+    {
+        var exception = context.Features.Get<IExceptionHandlerPathFeature>()?.Error;
+
+        // Check if the exception is a custom "resource not found" exception
+        if (exception is ResourceNotFoundException)
+        {
+            // Return a 404 if resource not found
+            context.Response.StatusCode = 404;
+            await context.Response.WriteAsync("The requested resource was not found." + exception?.Message);
+        }
+        else
+        {
+            // Return a 500 for other exceptions
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsync("An unexpected error occurred." + exception?.Message);
+        }
+    });
+});
+
+// Configure exception handling based on the environment
+//if (app.Environment.IsDevelopment())
+if (true)
+{
+    app.UseDeveloperExceptionPage(); // Shows detailed error pages in Development
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error"); // Shows generic error page in Production
+    app.UseHsts(); // Enforces secure HTTP headers in Production
 }
 
+app.UseCors("AllowAll");
+
+app.UseSwagger();
+app.UseSwaggerUI((c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    //c.RoutePrefix = "docs"; // Serve Swagger UI at the root URL
+}));
+
+
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
+app.UseRouting();
+app.UseHsts();
 app.Run();

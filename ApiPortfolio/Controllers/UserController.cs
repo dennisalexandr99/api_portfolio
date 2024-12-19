@@ -64,10 +64,13 @@ namespace ApiPortfolio.Controllers
             }
             catch (Exception e)
             {
-                Response.StatusCode = 500;
+                //Response.StatusCode = 500;
                 response.status = "fail";
                 response.message = e.Message;
                 _utility.FileTraceLog("Exception : " + "Login " + e.Message + "userUniqueId : " + userUniqueId);
+
+                return Json(response);
+
             }
             finally
             {
