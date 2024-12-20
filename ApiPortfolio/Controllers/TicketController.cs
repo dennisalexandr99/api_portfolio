@@ -79,7 +79,7 @@ namespace ApiPortfolio.Controllers
 
                     response.data.tickets = new Models.ClassTicket[1];
                     response.data.tickets[0] = new Models.ClassTicket();
-                    response.data.tickets[0].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[0]["user_unique_id"]));
+                    response.data.tickets[0].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[0]["id_ticket"]));
                     response.data.tickets[0].title = _utility.NullToString(dtTicket.Rows[0]["title"]);
                     response.data.tickets[0].description = _utility.NullToString(dtTicket.Rows[0]["description"]);
                     response.data.tickets[0].picture_url = url + "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[0]["picture"]);
@@ -201,7 +201,7 @@ namespace ApiPortfolio.Controllers
 
                         response.data.tickets = new Models.ClassTicket[1];
                         response.data.tickets[0] = new Models.ClassTicket();
-                        response.data.tickets[0].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[0]["user_unique_id"]));
+                        response.data.tickets[0].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[0]["id_ticket"]));
                         response.data.tickets[0].title = _utility.NullToString(dtTicket.Rows[0]["title"]);
                         response.data.tickets[0].description = _utility.NullToString(dtTicket.Rows[0]["description"]);
                         response.data.tickets[0].picture_url = url + "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[0]["picture"]);
@@ -446,10 +446,10 @@ namespace ApiPortfolio.Controllers
                     response.data.order_type = "";
 
                     response.data.tickets = new Models.ClassTicket[dtTicket.Rows.Count];
-                    for (int i = 0; i < dtTicket.Rows.Count; i++)       
+                    for (int i = 0; i < dtTicket.Rows.Count; i++)
                     {
                         response.data.tickets[i] = new Models.ClassTicket();
-                        response.data.tickets[i].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[i]["user_unique_id"]));
+                        response.data.tickets[i].id_ticket = int.Parse(_utility.NullToString(dtTicket.Rows[i]["id_ticket"]));
                         response.data.tickets[i].title = _utility.NullToString(dtTicket.Rows[i]["title"]);
                         response.data.tickets[i].description = _utility.NullToString(dtTicket.Rows[i]["description"]);
                         response.data.tickets[i].picture_url = url + "picture_uploads/medium/" + _utility.NullToString(dtTicket.Rows[i]["picture"]);
